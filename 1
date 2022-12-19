@@ -1,0 +1,135 @@
+#include <iostream>
+#include <string>
+#include <array>
+
+using namespace std;
+const int NUM_DAYS = 7; // number of days to track expenses
+
+// Structure to store daily expenses
+struct DailyExpenses {
+
+    string date = "Date"; // date of expenses
+    float transportCost = 0.0; // transport cost for the day
+    float mealCost = 0.0; // meal cost for the day
+    float entertainment = 0.0; // entertainment cost for the day
+    float others = 0.0; // other expenses for the day
+};
+
+// Class to manage expenses tracking
+class ExpensesTracker {
+private:
+    array<DailyExpenses, NUM_DAYS> expenses; // array to store daily expenses
+    int numDays; // number of days with recorded expenses
+
+public:
+    // Constructor to initialize member variables
+    ExpensesTracker() : numDays(0) {}
+
+
+    // Function to input daily expenses
+    void inputExpenses() {
+        // Check if the array is full
+        if (numDays == NUM_DAYS) {
+            std::cout << "Cannot add more days. Expenses array is full." << "\n";
+            return;
+        }
+
+        // Input expenses for the day
+        cout << "Enter expenses for day " << numDays + 1 << ":" << "\n";
+        cout << "Enter date: ";
+        cin >> expenses[numDays].date;
+        cout << "Enter transport cost: ";
+        cin >> expenses[numDays].transportCost;
+        cout << "Enter meal cost: ";
+        cin >> expenses[numDays].mealCost;
+        cout << "Enter entertainment cost: ";
+        cin >> expenses[numDays].entertainment;
+        cout << "Enter other expenses: ";
+        cin >> expenses[numDays].others;
+
+        numDays++;
+    }
+
+    // Function to view daily expenses
+    void viewDailyExpenses() {
+        // Input the date for which expenses are to be viewed
+        string date;
+        cout << "Enter the date: ";
+        cin >> date;
+
+
+        // Search for the expenses for the given date
+        for (int i = 0; i < numDays; i++) {
+            if (expenses[i].date == date) {
+                // Display the expenses for the given date
+                cout << "Expenses for " << date << ":" << "\n";
+                cout << "Transport cost: " << expenses[i].transportCost << "\n";
+                cout << "Meal cost: " << expenses[i].mealCost << "\n";
+                cout << "Entertainment cost: " << expenses[i].entertainment << "\n";
+                cout << "Other expenses: " << expenses[i].others << "\n";
+                return;
+            }
+        }
+
+        cout << "Expenses for " << date << " not found." << "\n";
+    }
+
+    // Function to view weekly expenses
+    void viewWeeklyExpenses() {
+        float totalTransport = 0.0;
+        float totalMeal = 0.0;
+        float totalEntertainment = 0.0;
+        float totalOthers = 0.0;
+
+        // Sum up the expenses for each category
+        for (int i = 0; i < numDays; i++) {
+            totalTransport += expenses[i].transportCost;
+            totalMeal += expenses[i].mealCost;
+            totalEntertainment += expenses[i].entertainment;
+            totalOthers += expenses[i].others;
+        }
+
+            // Display the total weekly expenses
+            cout << "Weekly expenses:" << "\n";
+            cout << "Total transport cost: " << totalTransport << "\n";
+            cout << "Total meal cost: " << totalMeal << "\n";
+            cout << "Total entertainment cost: " << totalEntertainment << "\n";
+            cout << "Total other expenses: " << totalOthers << "\n";
+        
+   
+
+            int main() {
+        ExpensesTracker tracker; // create an instance of the expenses tracker class
+
+        // Menu for the expenses tracking system
+        int choice;
+        do {
+            cout << "Personal Expenses Tracking System" << "\n";
+            cout << "1. Input daily expenses" << "\n";
+            cout << "2. View daily expenses" << "\n";
+            cout << "3. View weekly expenses" << "\n";
+            cout << "4. Exit" << "\n";
+            cout << "Enter your choice: ";
+            cin >> choice;
+
+            switch (choice) {
+            case 1:
+                tracker.inputExpenses();
+                break;
+            case 2:
+                tracker.viewDailyExpenses();
+                break;
+            case 3:
+                tracker.viewWeeklyExpenses();
+                break;
+            case 4:
+                break;
+            default:
+                std::cout << "Invalid choice." << "\n";
+                break;
+            }
+        } while (choice != 4);
+
+        return 0;
+    }
+}
